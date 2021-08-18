@@ -1,12 +1,13 @@
 #include <stdio.h>
-#include <chrono>
+#include <sys/time.h>
 
 int main () {
     double sum = 0;
     double add = 1;
 
     // Start measuring time
-    auto begin = std::chrono::high_resolution_clock::now();
+    struct timeval begin, end;
+    gettimeofday(&begin, 0);
     
     int iterations = 1000*1000*1000;
     for (int i=0; i<iterations; i++) {
@@ -15,12 +16,14 @@ int main () {
     }
     
     // Stop measuring time and calculate the elapsed time
-    auto end = std::chrono::high_resolution_clock::now();
-    auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
+    gettimeofday(&end, 0);
+    long seconds = end.tv_sec - begin.tv_sec;
+    long microseconds = end.tv_usec - begin.tv_usec;
+    double elapsed = seconds + microseconds*1e-6;
     
     printf("Result: %.20f\n", sum);
     
-    printf("Time measured: %.3f seconds.\n", elapsed.count() * 1e-9);
+    printf("Time measured: %.3f seconds.\n", elapsed);
     
     return 0;
 }
