@@ -9,7 +9,7 @@ int main () {
     struct timeval begin, end;
     gettimeofday(&begin, 0);
     
-    int iterations = 1000*1000*22;
+    int iterations = 1000*100;
     for (int i=0; i<iterations; i++) {
         sum += add;
         add /= 2.0;
